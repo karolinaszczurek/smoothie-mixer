@@ -5,20 +5,14 @@
       <div class="field title">
         <label for="title">Smoothie Title</label>
         <input type="text" name="title" v-model="title">
-        <!--Bo chcemy wziąć to co user wpisał w inpucie i przechować jako
-        data property-->
       </div>
       <div v-for="(ingredient, index) in ingredients" :key="index" class="field">
         <label for="ingredient">Ingredient</label>
         <input type="text" name="ingredient" v-model="ingredients[index]">
-        <!--kiedy używamy v-model musimy zbindować dane. Ale nie ma ingredient
-        w modelu, a on istnieje tylko w momencie tworzenia pętli.
-        Natomiast mamy tablicę ingredients z indexami, które są pojedynczym
-        składnikiem!-->
         <i class="material-icons delete" @click="deleteIng(ingredient)">delete</i>
       </div>
       <div class="field add-ingredient">
-        <label for="add-ingredient">Add an ingredient</label>
+        <label for="add-ingredient">Add an ingredient and press tab button</label>
         <input type="text" name="add-ingredient" @keydown.tab.prevent="addIng"
                v-model="another">
       </div>
@@ -40,7 +34,6 @@
     data() {
       return {
         title: null,
-        //  tu przechowujemy to property z v-model
         another: null,
         ingredients: [],
         feedback: null,
@@ -55,7 +48,6 @@
           this.slug = slugify(this.title, {
             replacement: '-',
             remove: /[$*_+~.()'"!\-:@]/g,
-          //  globalnie usuwa te znaki z tytułu do slugu
             lower: true
           })
           db.collection('smoothies').add({
@@ -73,7 +65,6 @@
       },
       addIng() {
         if (this.another) {
-          //  another nie jest null - user coś wpisał
           this.ingredients.push(this.another)
           this.another = null
           this.feedback = null

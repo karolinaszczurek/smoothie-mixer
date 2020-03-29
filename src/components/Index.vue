@@ -1,8 +1,6 @@
 <template>
   <div class="index container">
-    <!--container wszystko centruje na stronie-->
     <div class="card" v-for="smoothie in smoothies" :key="smoothie.id">
-      <!--class układa divy w karty, to klasa z materialize-->
       <div class="card-content">
         <i class="material-icons delete" @click="deleteSmoothie(smoothie.id)">delete</i>
         <h2 class="indigo-text">{{ smoothie.title }}</h2>
@@ -31,43 +29,24 @@
     name: 'Index',
     data() {
       return {
-        //z index.vue wyrzucamy zahardcodowane dummy data, ale zostawiamy tablicę smoothies
         smoothies: [],
       }
     },
     methods: {
       deleteSmoothie(id) {
 
-        //  delete doc form firestore
-
         db.collection('smoothies').doc(id).delete()
           .then(() => {
 
             this.smoothies = this.smoothies.filter(smoothie => {
               return smoothie.id !== id
-
-              // bierzemy zaimportowaną bazę db, wskazujemy jaka kolekcja (smoothie)
-              //  szukamy specyficznego dokumentu z przekazanym parametrem id
-              //  delete() zwraca promise, bo potrzebuje trochę czasu
-              //  i callback ES6 który aktualizuje naszą frontendową tablicę smoothies
-
-
-              // jeśli będą różne to return zwróci true i smoothie zostanie w tablicy, a jeśli będą
-              // takie same to zwróci false i wyfiltruje z tablicy
             })
 
           })
-
-        //bierzemy zaimportowaną bazę db, wskazujemy jaka kolekcja (smoothie)
-        //  szukamy specyficznego dokumentu z przekazanym parametrem id
-        //  delete() zwraca promise, bo potrzebuje trochę czasu
-        //  i callback ES6 który aktualizuje nasz fronte
-
       }
     },
 
     created() {
-      //  fetch data from firestore
       db.collection('smoothies').get()
         .then(snapshot => {
           snapshot.forEach(doc => {
@@ -77,20 +56,15 @@
           })
 
         })
-      //  snapshot - to obecny stan bazy (zawiera 2 dokumenty)
     }
 
   }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 
   .index {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    /*czyli chcę mieć 3-kolumnowego grida, każda kolumna będzie miała
-    1 frakcje szerekości */
     grid-gap: 30px;
     margin-top: 60px;
   }
@@ -117,7 +91,4 @@
     color: #aaa;
     font-size: 1.4em;
   }
-
-
-
 </style>

@@ -26,6 +26,3 @@ export default new Router({
     }
   ]
 })
-
-//zamieniamy nazwę deafultowego komponentu HelloWord na Index.vue
-//trzeba zmienić również w folderze router IMPORT, NAME, COMPONENT

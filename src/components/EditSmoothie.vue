@@ -5,20 +5,14 @@
       <div class="field title">
         <label for="title">Smoothie Title</label>
         <input type="text" name="title" v-model="smoothie.title">
-        <!--Bo chcemy wziąć to co user wpisał w inpucie i przechować jako
-        data property-->
       </div>
       <div v-for="(ingredient, index) in smoothie.ingredients" :key="index" class="field">
         <label for="ingredient">Ingredient</label>
         <input type="text" name="ingredient" v-model="smoothie.ingredients[index]">
-        <!--kiedy używamy v-model musimy zbindować dane. Ale nie ma ingredient
-        w modelu, a on istnieje tylko w momencie tworzenia pętli.
-        Natomiast mamy tablicę ingredients z indexami, które są pojedynczym
-        składnikiem!-->
         <i class="material-icons delete" @click="deleteIng(ingredient)">delete</i>
       </div>
       <div class="field add-ingredient">
-        <label for="add-ingredient">Add an ingredient</label>
+        <label for="add-ingredient">Add an ingredient and press tab button</label>
         <input type="text" name="add-ingredient" @keydown.tab.prevent="editIng"
                v-model="another">
       </div>
@@ -53,21 +47,14 @@
           this.smoothie.slug = slugify(this.smoothie.title, {
             replacement: '-',
             remove: /[$*_+~.()'"!\-:@]/g,
-            //  globalnie usuwa te znaki z tytułu do slugu
             lower: true
           })
           db.collection('smoothies').doc(this.smoothie.id).update({
-            // potrzebujemy wiedzieć co zaktualizować!
-            // wiec potrzebujemy referencje do wiersza
-            // a to jest doc.id
-
             title: this.smoothie.title,
             ingredients: this.smoothie.ingredients,
             slug: this.smoothie.slug
           }).then(() => {
             this.$router.push({ name: 'Index' })
-          //  kiedy update będzie zrobiony user ma wrócić na stronę domową!
-
           }).catch((err)=> {
             console.log(err)
           })
